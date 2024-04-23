@@ -1,5 +1,5 @@
-import { Component } from "react";
-import { Container, Row, Col, Card, Button } from "react-bootstrap";
+import React, { Component } from "react";
+import { Container, Row, Col, Button, Card } from "react-bootstrap";
 import fantasy from "../data/fantasy.json";
 import history from "../data/history.json";
 import horror from "../data/horror.json";
@@ -8,8 +8,7 @@ import scifi from "../data/scifi.json";
 
 class AllTheBooks extends Component {
   state = {
-    buttonPressed: true,
-    selectedButtonCategory: null,
+    selectedButtonCategory: scifi,
   };
 
   render() {
@@ -20,31 +19,39 @@ class AllTheBooks extends Component {
             <Col className="d-flex justify-content-between">
               <Button
                 variant="primary"
-                onClick={() => this.selectedButtonCategory("Fantasy")}
+                onClick={() =>
+                  this.setState({ selectedButtonCategory: fantasy })
+                }
               >
                 Fantasy
               </Button>
               <Button
                 variant="secondary"
-                onClick={() => this.selectedButtonCategory("History")}
+                onClick={() =>
+                  this.setState({ selectedButtonCategory: history })
+                }
               >
                 History
               </Button>
               <Button
                 variant="success"
-                onClick={() => this.selectedButtonCategory("Horror")}
+                onClick={() =>
+                  this.setState({ selectedButtonCategory: horror })
+                }
               >
                 Horror
               </Button>
               <Button
                 variant="danger"
-                onClick={() => this.selectedButtonCategory("Romance")}
+                onClick={() =>
+                  this.setState({ selectedButtonCategory: romance })
+                }
               >
                 Romance
               </Button>
               <Button
                 variant="info"
-                onClick={() => this.selectedButtonCategory("Sci-Fi")}
+                onClick={() => this.setState({ selectedButtonCategory: scifi })}
               >
                 Sci-Fi
               </Button>
@@ -53,7 +60,7 @@ class AllTheBooks extends Component {
         </Container>
         <Container>
           <Row className="mb-3">
-            {fantasy.map((book) => (
+            {this.state.selectedButtonCategory.map((book) => (
               <Col key={book.id} xs={12} sm={6} md={4} lg={3} className="mb-2">
                 <Card>
                   <Card.Img variant="top" src={book.img} alt={book.title} />
