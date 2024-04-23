@@ -10,8 +10,7 @@ function Welcome() {
       <Alert show={show} variant="success" className="text-center">
         <Alert.Heading>HELLO!!!</Alert.Heading>
         <p>
-          Welcome to this free library, sit back and choose your next book to
-          read
+          Welcome to this library, sit back and choose your next book to read
         </p>
         <hr />
         <div>

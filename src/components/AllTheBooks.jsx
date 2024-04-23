@@ -8,14 +8,15 @@ import scifi from "../data/scifi.json";
 
 class AllTheBooks extends Component {
   state = {
-    selectedButtonCategory: scifi,
+    selectedButtonCategory: null,
   };
 
   render() {
     return (
       <>
-        <Container className="mt-3">
-          <Row className="mb-3">
+        <Container className="mt-3 mb-5">
+          <Row className="mb-3 text-center">
+            <h1>SELECT CATEGORY</h1>
             <Col className="d-flex justify-content-between">
               <Button
                 variant="primary"
@@ -60,17 +61,30 @@ class AllTheBooks extends Component {
         </Container>
         <Container>
           <Row className="mb-3">
-            {this.state.selectedButtonCategory.map((book) => (
-              <Col key={book.id} xs={12} sm={6} md={4} lg={3} className="mb-2">
-                <Card>
-                  <Card.Img variant="top" src={book.img} alt={book.title} />
-                  <Card.Body>
-                    <Card.Title>{book.title}</Card.Title>
-                    <Card.Text>Price: {book.price}</Card.Text>
-                  </Card.Body>
-                </Card>
+            {this.state.selectedButtonCategory ? (
+              this.state.selectedButtonCategory.map((book) => (
+                <Col
+                  key={book.id}
+                  xs={12}
+                  sm={6}
+                  md={4}
+                  lg={3}
+                  className="mb-2"
+                >
+                  <Card>
+                    <Card.Img variant="top" src={book.img} alt={book.title} />
+                    <Card.Body>
+                      <Card.Title>{book.title}</Card.Title>
+                      <Card.Text>Price: {book.price}</Card.Text>
+                    </Card.Body>
+                  </Card>
+                </Col>
+              ))
+            ) : (
+              <Col>
+                <p>No category selected</p>
               </Col>
-            ))}
+            )}
           </Row>
         </Container>
       </>
