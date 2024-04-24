@@ -7,7 +7,7 @@ function Welcome() {
 
   return (
     <>
-      <Alert show={show} variant="success" className="text-center">
+      <Alert show={show} variant="success" className="text-center mt-5">
         <Alert.Heading>HELLO!!!</Alert.Heading>
         <p>
           Welcome to this library, sit back and choose your next book to read

@@ -1,68 +1,87 @@
 import React, { Component } from "react";
-import { Container, Row, Col, Button, Card } from "react-bootstrap";
+import { Container, Row, Col, Card, Form, Dropdown } from "react-bootstrap";
 import fantasy from "../data/fantasy.json";
 import history from "../data/history.json";
 import horror from "../data/horror.json";
 import romance from "../data/romance.json";
 import scifi from "../data/scifi.json";
 
+const allBooks = [...history, ...fantasy, ...horror, ...romance, ...scifi];
+
 class AllTheBooks extends Component {
   state = {
-    selectedButtonCategory: null,
+    selectedCategory: allBooks,
+    searchText: "",
+  };
+
+  filterBooks = () => {
+    const { searchText, selectedCategory } = this.state;
+    return selectedCategory.filter((book) =>
+      book.title.toLowerCase().includes(searchText.toLowerCase())
+    );
   };
 
   render() {
+    const filteredBooks = this.filterBooks();
     return (
       <>
-        <Container className="mt-3 mb-5">
+        <Container className=" mb-5 stickyContainer">
           <Row className="mb-3 text-center">
-            <h1>SELECT CATEGORY</h1>
-            <Col className="d-flex justify-content-between">
-              <Button
-                variant="primary"
-                onClick={() =>
-                  this.setState({ selectedButtonCategory: fantasy })
+            <Col className="d-flex justify-content-between align-items-center">
+              <Dropdown>
+                <Dropdown.Toggle variant="success" id="dropdown-basic">
+                  Choose Category
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  <Dropdown.Item
+                    onClick={() => this.setState({ selectedCategory: fantasy })}
+                  >
+                    Fantasy
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={() => this.setState({ selectedCategory: horror })}
+                  >
+                    Horror
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={() => this.setState({ selectedCategory: romance })}
+                  >
+                    Romance
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={() => this.setState({ selectedCategory: history })}
+                  >
+                    History
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={() => this.setState({ selectedCategory: scifi })}
+                  >
+                    Sci-Fi
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={() =>
+                      this.setState({ selectedCategory: allBooks })
+                    }
+                  >
+                    All
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+              <Form.Control
+                type="text"
+                placeholder="Search books..."
+                onChange={(event) =>
+                  this.setState({ searchText: event.target.value })
                 }
-              >
-                Fantasy
-              </Button>
-              <Button
-                variant="secondary"
-                onClick={() =>
-                  this.setState({ selectedButtonCategory: history })
-                }
-              >
-                History
-              </Button>
-              <Button
-                variant="success"
-                onClick={() =>
-                  this.setState({ selectedButtonCategory: horror })
-                }
-              >
-                Horror
-              </Button>
-              <Button
-                variant="danger"
-                onClick={() =>
-                  this.setState({ selectedButtonCategory: romance })
-                }
-              >
-                Romance
-              </Button>
-              <Button
-                variant="info"
-                onClick={() => this.setState({ selectedButtonCategory: scifi })}
-              >
-                Sci-Fi
-              </Button>
+                className=""
+              />
             </Col>
           </Row>
         </Container>
         <Container>
           <Row className="mb-3">
-            {this.state.selectedButtonCategory ? (
-              this.state.selectedButtonCategory.map((book) => (
+            {filteredBooks.length > 0 ? (
+              filteredBooks.map((book) => (
                 <Col
                   key={book.id}
                   xs={12}
@@ -71,18 +90,23 @@ class AllTheBooks extends Component {
                   lg={3}
                   className="mb-2"
                 >
-                  <Card>
-                    <Card.Img variant="top" src={book.img} alt={book.title} />
+                  <Card className="cardBody">
+                    <Card.Img
+                      className="cardImg"
+                      variant="top"
+                      src={book.img}
+                      alt={book.title}
+                    />
                     <Card.Body>
                       <Card.Title>{book.title}</Card.Title>
-                      <Card.Text>Price: {book.price}</Card.Text>
+                      <Card.Text>Price: {book.price} $</Card.Text>
                     </Card.Body>
                   </Card>
                 </Col>
               ))
             ) : (
               <Col>
-                <p>No category selected</p>
+                <p>No book found</p>
               </Col>
             )}
           </Row>
